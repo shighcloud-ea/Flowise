@@ -1,21 +1,18 @@
 services:
   - type: web
     name: flowise
-    env: node
-    buildCommand: npm install && npm run build
+    runtime: node
+    buildCommand: npm install --legacy-peer-deps && npm run build
     startCommand: npm run start
+    nodeVersion: 18.15.0
     envVars:
       - key: PORT
         value: 3000
-      - key: DATABASE_PATH
-        value: ./flowise.db
-      - key: APIKEY_PATH
-        value: ./apikeys.json
-      - key: LOG_PATH
-        value: ./logs
-      - key: SECRETKEY_PATH
-        value: ./secrets.json
+      - key: NODE_ENV
+        value: production
       - key: FLOWISE_USERNAME
         fromVariable: FLOWISE_USERNAME
       - key: FLOWISE_PASSWORD
         fromVariable: FLOWISE_PASSWORD
+    healthCheckPath: /health
+    autoDeploy: true
