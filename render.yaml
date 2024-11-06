@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: flowise
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: DATABASE_PATH
+        value: ./flowise.db
+      - key: APIKEY_PATH
+        value: ./apikeys.json
+      - key: LOG_PATH
+        value: ./logs
+      - key: SECRETKEY_PATH
+        value: ./secrets.json
+      - key: FLOWISE_USERNAME
+        fromVariable: FLOWISE_USERNAME
+      - key: FLOWISE_PASSWORD
+        fromVariable: FLOWISE_PASSWORD
