@@ -1,31 +1,23 @@
 services:
   - type: web
     name: flowise
-    runtime: node
-    buildCommand: |
-      npm install -g pnpm && \
-      pnpm install --no-frozen-lockfile && \
-      pnpm build && \
-      echo "Creating flowise-ui directory..." && \
-      mkdir -p packages/server/node_modules/flowise-ui/build && \
-      echo "Copying UI build files..." && \
-      cd packages/ui/build && cp -rv ./* ../../server/node_modules/flowise-ui/build/ && \
-      echo "Verifying UI files:" && \
-      ls -la packages/server/node_modules/flowise-ui/build/
-    startCommand: cd packages/server && node dist/index.js
-    nodeVersion: 18.15.0
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
     envVars:
       - key: PORT
         value: 3000
-      - key: NODE_ENV
-        value: production
       - key: FLOWISE_USERNAME
-        fromVariable: FLOWISE_USERNAME
+        sync: false
       - key: FLOWISE_PASSWORD
-        fromVariable: FLOWISE_PASSWORD
-      - key: HOST
-        value: 0.0.0.0
-      - key: UPLOAD_DIR
-        value: uploads
-    healthCheckPath: /health
-    autoDeploy: true
+        sync: false
+      - key: DATABASE_PATH
+        value: /data/database.sqlite
+      - key: APIKEY_PATH
+        value: /data/apikeys.json
+      - key: SECRETKEY_PATH
+        value: /data/secrets.json
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
