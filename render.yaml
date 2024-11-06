@@ -5,10 +5,11 @@ services:
     buildCommand: |
       npm install -g pnpm && \
       pnpm install --no-frozen-lockfile && \
-      cd packages/server && pnpm build && \
-      mkdir -p uploads && \
-      chmod +x bin/run  # Add execute permission to the run script
-    startCommand: cd packages/server && chmod +x bin/run && ./bin/run start
+      pnpm build && \
+      mkdir -p packages/server/node_modules/flowise-ui/build && \
+      cp -r packages/ui/build/* packages/server/node_modules/flowise-ui/build/
+    startCommand: cd packages/server && node dist/index.js
+    nodeVersion: 18.15.0
     envVars:
       - key: PORT
         value: 3000
@@ -22,3 +23,5 @@ services:
         value: 0.0.0.0
       - key: UPLOAD_DIR
         value: uploads
+    healthCheckPath: /health
+    autoDeploy: true
