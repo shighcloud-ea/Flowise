@@ -12,12 +12,12 @@ services:
       - key: FLOWISE_PASSWORD
         sync: false
       - key: DATABASE_PATH
-        value: /data/database.sqlite
+        value: ./database.sqlite
       - key: APIKEY_PATH
-        value: /data/apikeys.json
+        value: ./apikeys.json
       - key: SECRETKEY_PATH
-        value: /data/secrets.json
-    disk:
-      name: data
-      mountPath: /data
-      sizeGB: 1
+        value: ./secrets.json
+      - key: UPLOAD_PATH
+        value: ./uploads
+      - key: MAX_UPLOAD_SIZE
+        value: "10MB"
