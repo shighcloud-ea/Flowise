@@ -5,9 +5,10 @@ services:
     buildCommand: |
       npm install -g pnpm && \
       pnpm install --no-frozen-lockfile && \
-      cd packages/server && pnpm build
-    startCommand: cd packages/server && node dist/index.js
-    nodeVersion: 18.15.0
+      cd packages/server && pnpm build && \
+      mkdir -p uploads && \
+      chmod +x bin/run  # Add execute permission to the run script
+    startCommand: cd packages/server && chmod +x bin/run && ./bin/run start
     envVars:
       - key: PORT
         value: 3000
@@ -17,7 +18,7 @@ services:
         fromVariable: FLOWISE_USERNAME
       - key: FLOWISE_PASSWORD
         fromVariable: FLOWISE_PASSWORD
-      - key: HOST  # Add this
+      - key: HOST
         value: 0.0.0.0
-    healthCheckPath: /health
-    autoDeploy: true
+      - key: UPLOAD_DIR
+        value: uploads
