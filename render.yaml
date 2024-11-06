@@ -5,8 +5,8 @@ services:
     buildCommand: |
       npm install -g pnpm && \
       pnpm install --no-frozen-lockfile && \
-      pnpm build
-    startCommand: pnpm start
+      cd packages/server && pnpm build
+    startCommand: cd packages/server && node dist/index.js
     nodeVersion: 18.15.0
     envVars:
       - key: PORT
@@ -17,5 +17,7 @@ services:
         fromVariable: FLOWISE_USERNAME
       - key: FLOWISE_PASSWORD
         fromVariable: FLOWISE_PASSWORD
+      - key: HOST  # Add this
+        value: 0.0.0.0
     healthCheckPath: /health
     autoDeploy: true
