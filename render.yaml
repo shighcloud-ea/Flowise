@@ -2,8 +2,11 @@ services:
   - type: web
     name: flowise
     runtime: node
-    buildCommand: npm install --legacy-peer-deps && npm run build
-    startCommand: npm run start
+    buildCommand: |
+      npm install -g pnpm && \
+      pnpm install --no-frozen-lockfile && \
+      pnpm build
+    startCommand: pnpm start
     nodeVersion: 18.15.0
     envVars:
       - key: PORT
