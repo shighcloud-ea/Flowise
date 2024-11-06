@@ -6,14 +6,10 @@ services:
       npm install -g pnpm && \
       pnpm install --no-frozen-lockfile && \
       pnpm build && \
-      echo "Listing UI build directory:" && \
-      ls -la packages/ui/build && \
-      echo "Creating server UI directory..." && \
-      mkdir -p packages/server/node_modules/flowise-ui/build && \
-      echo "Copying UI files..." && \
-      cp -rv packages/ui/build/* packages/server/node_modules/flowise-ui/build/ && \
-      echo "Verifying copied files:" && \
-      ls -la packages/server/node_modules/flowise-ui/build/
+      echo "Creating UI directory in server..." && \
+      mkdir -p packages/server/dist/ui && \
+      echo "Copying UI build files..." && \
+      cp -rv packages/ui/dist/* packages/server/dist/ui/
     startCommand: cd packages/server && node dist/index.js
     nodeVersion: 18.15.0
     envVars:
